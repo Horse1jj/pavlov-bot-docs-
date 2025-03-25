@@ -1,74 +1,117 @@
-# Pavlov Bot Documentation
+```
+Pavlov-Bot
+==========
 
-## Introduction
-Pavlov Bot is a Discord bot designed to interface with Pavlov VR RCON, allowing server administrators to manage their servers efficiently.
+Discord bot to interface with Pavlov VR RCON
 
-## Setup Guide
-This guide provides installation instructions for both Linux and Windows environments.
+Setup
+-----
+This setup guide assumes you are running Ubuntu 18.04 or later. Later versions may already have the required Python 3.8 version. It also assumes you are running the bot on the same server running `pavlovserver`, following the setup guide found here.
 
----
-
-## Linux Installation (Ubuntu 18.04 or Later)
-
-### Prerequisites
-Ensure you have the following installed:
+Prerequisites
+-------------
 - `pip3`
 - `python3.8`
 - `pipenv`
 
-### Installing Required Packages
-#### Install `pip3`
-```bash
+### Installing pip3
+```
 sudo apt install python3-pip
 ```
-#### Install `python3.8` (Required for Ubuntu versions prior to 20.04)
-```bash
+
+### Installing Python 3.8 (required for Ubuntu prior to 20.04)
+#### Update your system and install prerequisites:
+```
 sudo apt update
 sudo apt upgrade
 sudo apt install software-properties-common
+```
+#### Install PPA for Python 3.8:
+```
 sudo add-apt-repository ppa:deadsnakes/ppa
+```
+Press `Enter` when prompted.
+
+#### Install Python 3.8:
+```
 sudo apt install python3.8
 ```
-Verify installation:
-```bash
+#### Verify installation:
+```
 python3.8 --version
 ```
-#### Install `pipenv`
-```bash
+
+Getting pavlov-bot code and configuring
+---------------------------------------
+#### Log in as steam user:
+```
+su - steam
+```
+#### Clone the repository:
+```
+cd ~ && git clone https://github.com/makupi/pavlov-bot
+```
+#### Copy configuration files:
+```
+cp ~/pavlov-bot/Examples/config.json.default ~/pavlov-bot/config.json
+```
+Modify `config.json` with:
+```
+{"prefix": ";", "token": "replacemewithdiscordtoken"}
+```
+#### Copy and edit `servers.json`:
+```
+cp ~/pavlov-bot/Examples/servers.json.default ~/pavlov-bot/servers.json
+```
+Modify `servers.json` with your server details. Admins are specified using their Discord IDs.
+
+### Optional configuration files
+- `aliases.json` - Define map and player aliases
+- `commands.json` - Configure permissions for commands
+- `polling.json` - Enable monitoring and auto-balancing
+- `lists.json` - Manage dropdown lists for `;menu` or `;gamesetup`
+
+Setting up the bot in Discord
+-----------------------------
+Follow instructions [here](https://discord.com/developers/applications/) to obtain a bot token and configure it in `config.json`.
+
+### Enable Message Content Intent
+Navigate to:
+```
+https://discord.com/developers/applications/
+```
+Under `Bot` settings, enable `Message Content Intent`.
+
+Installing pipenv
+-----------------
+#### As root user:
+```
 pip3 install pipenv
 ```
 
-### Download and Configure Pavlov Bot
-```bash
-su - steam
-cd ~ && git clone https://github.com/makupi/pavlov-bot
+#### Setup pipenv for pavlov-bot:
 ```
-Copy and configure required files:
-```bash
-cp Examples/config.json.default ~/pavlov-bot/config.json
-cp Examples/servers.json.default ~/pavlov-bot/servers.json
-cp Examples/aliases.json.default ~/pavlov-bot/aliases.json # Optional
-cp Examples/commands.json.default ~/pavlov-bot/commands.json # Optional
-cp Examples/polling.json.default ~/pavlov-bot/polling.json # Optional
-cp Examples/lists.json.default ~/pavlov-bot/lists.json # Optional
-```
-Edit `config.json` to insert your bot token.
-
-### Install Dependencies
-```bash
 cd ~/pavlov-bot && pipenv install
 ```
 
-### Start Pavlov Bot
-```bash
-cd ~/pavlov-bot && pipenv run python3.8 run.py
+Running the bot
+---------------
+#### Test startup:
 ```
+cd ~/pavlov-bot && /usr/local/bin/pipenv run python3.8 run.py
+```
+Try commands like `;help`, `;info`, and `;servers`.
 
-### Running as a Systemd Service
-Create a systemd service file:
-```ini
+Running as a systemd service
+----------------------------
+#### Create service file:
+```
+/etc/systemd/system/pavlov-bot.service
+```
+Content:
+```
 [Unit]
-Description=Pavlov Bot
+Description=Pavlov-bot
 
 [Service]
 Type=simple
@@ -82,95 +125,64 @@ Group=steam
 [Install]
 WantedBy=multi-user.target
 ```
-Enable and start the service:
-```bash
-sudo systemctl enable pavlov-bot
-sudo systemctl start pavlov-bot
+
+#### Enable and start the service:
 ```
-Check logs:
-```bash
+systemctl enable pavlov-bot
+systemctl start pavlov-bot
+```
+#### Check logs:
+```
 journalctl -n 20 -f -u pavlov-bot
 ```
 
----
-
-## Windows Installation
-
-### Prerequisites
-- Install [Python 3.8](https://www.python.org/downloads/release/python-380/)
-- Install [Git](https://git-scm.com/downloads)
-- Install [pipenv](https://pipenv.pypa.io/en/latest/):
-  ```powershell
-  pip install pipenv
-  ```
-
-### Download and Configure Pavlov Bot
-```powershell
-git clone https://github.com/makupi/pavlov-bot
-cd pavlov-bot
+Updating pavlov-bot
+--------------------
+To update from the master branch:
 ```
-Copy and configure required files:
-```powershell
-Copy-Item Examples\config.json.default -Destination config.json
-Copy-Item Examples\servers.json.default -Destination servers.json
-Copy-Item Examples\aliases.json.default -Destination aliases.json  # Optional
-Copy-Item Examples\commands.json.default -Destination commands.json  # Optional
-Copy-Item Examples\polling.json.default -Destination polling.json  # Optional
-Copy-Item Examples\lists.json.default -Destination lists.json  # Optional
-```
-Edit `config.json` to insert your bot token.
+cd /home/steam/pavlov-bot
 
-### Install Dependencies
-```powershell
-pipenv install
-```
-
-### Start Pavlov Bot
-```powershell
-pipenv run python run.py
-```
-
-### Running as a Windows Service (Optional)
-To make the bot run automatically:
-1. Open Task Scheduler
-2. Create a new task
-3. Set the action to run `pipenv run python run.py` in the bot directory.
-
----
-
-## Updating Pavlov Bot
-To update, run:
-```bash
-cd ~/pavlov-bot && git pull && pipenv sync
-systemctl restart pavlov-bot  # Linux only
-```
-For Windows:
-```powershell
-cd pavlov-bot
 git pull
+
 pipenv sync
+
+systemctl restart pavlov-bot
 ```
 
----
+Roles and Permissions
+---------------------
+### Permission Levels:
+- **Everyone**: `;servers`, `;serverinfo`, `;players`, `;batch`
+- **Captain**: Everything above + `;switchmap`, `;resetsnd`, `;switchteam`, `;rotatemap`
+- **Mod**: Everything above + `;ban`, `;unban`, `;kick`
+- **Admin**: Full access
 
-## Roles and Permissions
-The bot has four permission levels:
-- **Everyone**: Basic commands like `;servers`, `;serverinfo`, `;players`.
-- **Captain**: Additional map rotation commands.
-- **Mod**: Kick and ban commands.
-- **Admin**: Full control.
+Admins are defined in `servers.json`, while other roles use Discord roles in the format `{role}-{server}` (e.g., `Mod-testserver`). `Captain-bot` and `Mod-bot` provide global permissions.
 
-Admins are defined in `servers.json`. Other roles are configured in Discord as `{role}-{server}` (e.g., `Mod-TestServer`).
+Advanced Features
+-----------------
+### Aliases
+Defined in `aliases.json`, allowing custom names for players and maps.
 
----
+### Team Management
+- `;ringer add` / `;ringer delete` / `;ringer reset`
+- `;teamsetup` for ad-hoc teams
+- `;matchsetup <CT Team> <T Team> <server>`
 
-## Advanced Features
-- **Aliases**: Use `aliases.json` to map UGC###/SteamID to player-friendly names.
-- **Team Management**: Set up teams using `;teamsetup`.
-- **Automated Monitoring**: Configure polling in `polling.json`.
-- **Custom Commands**: Define CLI commands in `commands.json`.
-- **Automated Game Setup**: Use `;gamesetup` for Discord-controlled match management.
+### Game Control
+- `;gamesetup` - Button-based SND match control
+- `;menu` - Server selection via dropdowns
+- `;custom "<command string>" <server>` - Execute custom RCON commands
+- `;flush <server>` - Kick random non-aliased player
+- `;repeat <command> <number>` - Execute command multiple times
+- `;switchmap` - Can accept `UGC###` or workshop URLs
+- `;command <command_name>` - Execute predefined server commands
 
-For further details, check the [official documentation](https://github.com/makupi/pavlov-bot).
+### Monitoring & Auto-Management
+- `;anyoneplaying` - Check all servers
+- `;polling.json` - Auto-balancing and notifications
+
+For more details, refer to the full documentation.
+```
 
 
