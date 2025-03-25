@@ -1,4 +1,4 @@
-```
+==========
 Pavlov-Bot
 ==========
 
@@ -14,19 +14,23 @@ Prerequisites
 - `python3.8`
 - `pipenv`
 
-### Installing pip3
+Installing pip3
+-----
+
 ```
 sudo apt install python3-pip
 ```
 
-### Installing Python 3.8 (required for Ubuntu prior to 20.04)
-#### Update your system and install prerequisites:
+Installing Python 3.8 (required for Ubuntu prior to 20.04)
+-----
+
+Update your system and install prerequisites:
 ```
 sudo apt update
 sudo apt upgrade
 sudo apt install software-properties-common
 ```
-#### Install PPA for Python 3.8:
+Install PPA for Python 3.8:
 ```
 sudo add-apt-repository ppa:deadsnakes/ppa
 ```
@@ -36,36 +40,39 @@ Press `Enter` when prompted.
 ```
 sudo apt install python3.8
 ```
-#### Verify installation:
+ Verify installation:
 ```
 python3.8 --version
 ```
 
 Getting pavlov-bot code and configuring
 ---------------------------------------
-#### Log in as steam user:
+ Log in as steam user:
 ```
 su - steam
 ```
-#### Clone the repository:
+Clone the repository:
 ```
 cd ~ && git clone https://github.com/makupi/pavlov-bot
 ```
-#### Copy configuration files:
+Copy configuration files:
 ```
 cp ~/pavlov-bot/Examples/config.json.default ~/pavlov-bot/config.json
 ```
 Modify `config.json` with:
+
 ```
 {"prefix": ";", "token": "replacemewithdiscordtoken"}
+
 ```
-#### Copy and edit `servers.json`:
+
+Copy and edit `servers.json`:
 ```
 cp ~/pavlov-bot/Examples/servers.json.default ~/pavlov-bot/servers.json
 ```
 Modify `servers.json` with your server details. Admins are specified using their Discord IDs.
 
-### Optional configuration files
+ Optional configuration files
 - `aliases.json` - Define map and player aliases
 - `commands.json` - Configure permissions for commands
 - `polling.json` - Enable monitoring and auto-balancing
@@ -75,7 +82,7 @@ Setting up the bot in Discord
 -----------------------------
 Follow instructions [here](https://discord.com/developers/applications/) to obtain a bot token and configure it in `config.json`.
 
-### Enable Message Content Intent
+ Enable Message Content Intent
 Navigate to:
 ```
 https://discord.com/developers/applications/
@@ -84,19 +91,20 @@ Under `Bot` settings, enable `Message Content Intent`.
 
 Installing pipenv
 -----------------
-#### As root user:
+
+As root user:
 ```
 pip3 install pipenv
 ```
 
-#### Setup pipenv for pavlov-bot:
+Setup pipenv for pavlov-bot:
 ```
 cd ~/pavlov-bot && pipenv install
 ```
 
 Running the bot
 ---------------
-#### Test startup:
+Test startup:
 ```
 cd ~/pavlov-bot && /usr/local/bin/pipenv run python3.8 run.py
 ```
@@ -104,7 +112,7 @@ Try commands like `;help`, `;info`, and `;servers`.
 
 Running as a systemd service
 ----------------------------
-#### Create service file:
+Create service file:
 ```
 /etc/systemd/system/pavlov-bot.service
 ```
@@ -126,7 +134,7 @@ Group=steam
 WantedBy=multi-user.target
 ```
 
-#### Enable and start the service:
+Enable and start the service:
 ```
 systemctl enable pavlov-bot
 systemctl start pavlov-bot
@@ -151,7 +159,7 @@ systemctl restart pavlov-bot
 
 Roles and Permissions
 ---------------------
-### Permission Levels:
+ Permission Levels:
 - **Everyone**: `;servers`, `;serverinfo`, `;players`, `;batch`
 - **Captain**: Everything above + `;switchmap`, `;resetsnd`, `;switchteam`, `;rotatemap`
 - **Mod**: Everything above + `;ban`, `;unban`, `;kick`
@@ -161,15 +169,15 @@ Admins are defined in `servers.json`, while other roles use Discord roles in the
 
 Advanced Features
 -----------------
-### Aliases
-Defined in `aliases.json`, allowing custom names for players and maps.
+Aliases:
+   Defined in `aliases.json`, allowing custom names for players and maps.
 
-### Team Management
+ Team Management
 - `;ringer add` / `;ringer delete` / `;ringer reset`
 - `;teamsetup` for ad-hoc teams
 - `;matchsetup <CT Team> <T Team> <server>`
 
-### Game Control
+ Game Control
 - `;gamesetup` - Button-based SND match control
 - `;menu` - Server selection via dropdowns
 - `;custom "<command string>" <server>` - Execute custom RCON commands
@@ -178,11 +186,18 @@ Defined in `aliases.json`, allowing custom names for players and maps.
 - `;switchmap` - Can accept `UGC###` or workshop URLs
 - `;command <command_name>` - Execute predefined server commands
 
-### Monitoring & Auto-Management
+Monitoring & Auto-Management
 - `;anyoneplaying` - Check all servers
 - `;polling.json` - Auto-balancing and notifications
 
-For more details, refer to the full documentation.
-```
+==========
+Pavlov-Bot for windows 
+==========
 
+-------
+same steps apply 
+-------  
 
+after: 
+    -`pip install aiohttp` 
+    -`python run.py` 
