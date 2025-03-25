@@ -2,9 +2,9 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'pavlov-bot'
+copyright = 'GLP 3.0'
+author = 'Makupi'
 
 release = '0.1'
 version = '0.1.0'
