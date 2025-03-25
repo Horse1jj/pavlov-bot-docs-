@@ -36,7 +36,7 @@ sudo add-apt-repository ppa:deadsnakes/ppa
 ```
 Press `Enter` when prompted.
 
-#### Install Python 3.8:
+Install Python 3.8:
 ```
 sudo apt install python3.8
 ```
@@ -63,7 +63,6 @@ Modify `config.json` with:
 
 ```
 {"prefix": ";", "token": "replacemewithdiscordtoken"}
-
 ```
 
 Copy and edit `servers.json`:
@@ -82,7 +81,8 @@ Setting up the bot in Discord
 -----------------------------
 Follow instructions [here](https://discord.com/developers/applications/) to obtain a bot token and configure it in `config.json`.
 
- Enable Message Content Intent
+Enable Message Content Intent:
+
 Navigate to:
 ```
 https://discord.com/developers/applications/
@@ -98,6 +98,7 @@ pip3 install pipenv
 ```
 
 Setup pipenv for pavlov-bot:
+
 ```
 cd ~/pavlov-bot && pipenv install
 ```
@@ -139,7 +140,8 @@ Enable and start the service:
 systemctl enable pavlov-bot
 systemctl start pavlov-bot
 ```
-#### Check logs:
+Check logs:
+
 ```
 journalctl -n 20 -f -u pavlov-bot
 ```
@@ -199,5 +201,5 @@ same steps apply
 -------  
 
 after: 
-    -`pip install aiohttp` 
-    -`python run.py` 
+    -`pip install aiohttp` - this is a common error so this is the easiest way to do it 
+    -`python run.py` - run command 
